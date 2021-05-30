@@ -35,7 +35,7 @@ void solve()
         pair<ll,ll>a;
         a = q.top(); q.pop();
         ll node = a.ss , w = a.ff;
-        if(node == n) break;
+        
         if(w > dis[node]) continue;
       //  cout << "node: " << node << " w: " << w << endl;
         dis[node] = w;
