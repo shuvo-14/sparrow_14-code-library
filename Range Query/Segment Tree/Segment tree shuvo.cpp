@@ -55,7 +55,7 @@ struct segtree{
         int mid = (lx+rx)/2;
         if(i <= mid) update(2*x+1,lx,mid,i,v);
         else update(2*x+2,mid+1,rx,i,v);
-        tree[x] = tree[2*x+1] + tree[2*x+2];
+        tree[x] = __gcd(tree[2*x+1], tree[2*x+2]);
     }
 
     void update(int i, int v){
