@@ -93,14 +93,10 @@ struct segtree{
         {
             return lx;
         } 
-        int s1 = tree[2*x+1];
-        int s2 = tree[2*x+2];
-        int mid = (lx+rx)/2;
-        if(s1 >= val)
-        {
-            return find(val,2*x+1,lx,mid);
-        }
-        else return find(val,2*x+2,mid+1,rx);
+       int mid = (lx+rx)/2;
+       int res = find(val,2*x+1,lx,mid);
+       if(res == -1) res = find(val,2*x+2,mid+1,rx);
+       return res;
     }
     ll find(int val)
     {
