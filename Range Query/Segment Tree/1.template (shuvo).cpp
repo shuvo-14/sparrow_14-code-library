@@ -1,3 +1,13 @@
+struct item{
+    //Use required attributes
+    int mn, mncnt, mx, mxcnt;
+
+    //Default Values
+    item(int _mn = inf, int _mncnt = 0, int _mx = inf, int _mxcnt = 0)
+    {
+        mn = _mn, mx = _mx, mncnt = _mncnt, mxcnt = _mxcnt;
+    }
+};
 int n;
 struct segtree{
     
