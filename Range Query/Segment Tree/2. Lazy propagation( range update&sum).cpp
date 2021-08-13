@@ -59,9 +59,9 @@ struct segtree{
         build(0,0,n-1,vec);
     }
 
-    void update(int x, int lx, int rx, int l, int r, int v)
+    void propagate(int x, int lx, int rx)
     {
-        if(lazy[x] != 0)
+        if(lazy[x])
         {
             tree[x] += (rx-lx+1) * lazy[x];
             if(lx != rx)
@@ -71,6 +71,11 @@ struct segtree{
             }
             lazy[x] = 0;
         }
+    }
+
+    void update(int x, int lx, int rx, int l, int r, int v)
+    {
+        propagate(x,lx,rx);
         if(lx > r || rx < l) return;
         if(lx >= l && rx <= r)
         {
@@ -96,16 +101,7 @@ struct segtree{
 
     ll query(int l, int r, int x, int lx, int rx)
     {
-        if(lazy[x] != 0)
-        {
-            tree[x] += (rx-lx+1) * lazy[x];
-            if(lx != rx)
-            {
-                lazy[2*x+1] += lazy[x];
-                lazy[2*x+2] += lazy[x];
-            }
-            lazy[x] = 0;
-        }
+        propagate(x,lx,rx);
         if(lx > r || rx < l) return 0LL; //change accordingly
         if(lx >= l && rx <= r) return tree[x];
         int mid = (lx+rx)/2;
