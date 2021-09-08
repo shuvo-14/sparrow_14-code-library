@@ -49,11 +49,12 @@ int lca(int a, int b)
 {
     if(level[a] > level[b]) swap(a,b);
     int d = level[b] - level[a];
-    while(d)
+    for(int i = 0; i < maxN; i++)
     {
-        int i = log2(d);
-        d -= (1 << i);
-        b = LCA[b][i];
+        if(d & (1<<i)) 
+        {
+            b = LCA[b][i];
+        }
     }
     if(a==b) return a;
     for(int i = maxN; i >= 0; i--)
