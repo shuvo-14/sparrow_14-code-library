@@ -79,15 +79,9 @@ struct segtree{
         if(lx > r || rx < l) return;
         if(lx >= l && rx <= r)
         {
-            tree[x] += (rx-lx+1) * v;
-            lazy[x] += v;
-            if(lx != rx)
-            {
-                lazy[2*x+1] += lazy[x];
-                lazy[2*x+2] += lazy[x];
-            }
-            lazy[x] = 0;
-            return;
+           lazy[x] += v;
+           propagate(x,lx,rx);
+           return;
         }
         int mid = (lx+rx)/2;
         update(2*x+1,lx,mid,l,r,v);
