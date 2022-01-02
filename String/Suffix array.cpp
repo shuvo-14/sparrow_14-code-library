@@ -7,7 +7,6 @@ using namespace std;
 #define pb push_back
 #define ff first
 #define ss second
-#define int long long
 #define all(x) x.begin(),x.end()
 const int mod=1e9+7;
 const int inf = 1e9;
@@ -29,7 +28,6 @@ void counting_sort(vector<int>&p,vector<int>&c)
 }
 void solve()
 {
-  // complexity nlogn
     string s;
     cin >> s;
     s += '$';
@@ -63,7 +61,19 @@ void solve()
         k++;
         c = c_new;
     }
-    for(int i= 0; i < n; i++) cout << p[i] << " "; cout << endl;
+   // for(int i = 0; i < n; i++) cout << p[i] << " " << s.substr(p[i],n-p[i]) << endl;; cout << endl;
+    vector<int>lcp(n);
+    k = 0;
+    for(int i = 0; i + 1 < n; i++)
+    {
+        int x = c[i];
+        int j = p[x-1];
+        while(s[i+k] == s[j+k]) k++;
+        lcp[x-1] = k;
+        k = max(k-1,0); 
+    }
+    for(int i = 0; i < n; i++) cout << p[i] << " "; cout << endl;
+    for(int i = 0; i + 1 < n; i++) cout << lcp[i] <<" "; cout << endl;
 }
 
 int32_t main()
