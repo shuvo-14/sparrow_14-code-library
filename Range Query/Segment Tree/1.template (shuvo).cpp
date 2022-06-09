@@ -11,7 +11,7 @@ struct segtree
     }
     int merge(int lft, int rgt)
     {
-        return min(lft,rgt);
+        return min(lft,rgt); // update as need
     }
     void build(int x, int lx, int rx)
     {
@@ -40,7 +40,7 @@ struct segtree
     int query(int x, int lx, int rx, int l, int r)
     {
         if(lx >= l and rx <= r) return tree[x];
-        if(lx > r or rx < l) return inf;
+        if(lx > r or rx < l) return inf; // update as need
         int mid = (lx+rx)/2;
         int q1 = query(2*x,lx,mid,l,r);
         int q2 = query(2*x+1,mid+1,rx,l,r);
