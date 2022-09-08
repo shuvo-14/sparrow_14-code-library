@@ -1,56 +1,27 @@
-#include<bits/stdc++.h>
-using namespace std;
-
-#define IOS ios::sync_with_stdio(0); cin.tie(0); cout.tie(0);
-#define endl "\n"
-#define ll long long
-#define pb push_back
-#define ff first
-#define ss second
-#define all(x) x.begin(),x.end()
-const int mod=1e9+7;
-const int N=5e5+9;
-int par[N], cnt[N];
-int find(int a)
+struct DSU
 {
-    if(par[a] == a) return a;
-    return par[a] = find(par[a]);
-}
-
-void Union(int a, int b)
-{
-    int u, v;
-    u = find(a);
-    v = find(b);
-    if(u != v) par[v] = u, cnt[u] += cnt[v];
-}
-
-void solve()
-{
-    int n, m;
-    cin >> n >> m;
-    for(int i = 1; i <= n; i++) par[i] = i, cnt[i] = 1;
-    while(m--)
+    vector<int> par, cnt;
+    void init(int n)
     {
-        int k;
-        cin >> k;
-        vector<int>v(k);
-        for(int i = 0; i < k; i++) cin >> v[i];
-        for(int i = 0; i < k-1; i++) Union(v[i],v[i+1]);
+        par.resize(n + 1);
+        cnt.resize(n + 1);
+        for (int i = 1; i <= n; i++)
+            par[i] = i, cnt[i] = 1;
     }
-    for(int i = 1; i <= n; i++)
+    int find(int a)
     {
-        int par = find(i);
-        cout << cnt[par] << " ";
+        if (par[a] == a)
+            return a;
+        return par[a] = find(par[a]);
     }
-}
-
-int main()
-{
-    IOS;
-    int t = 1;
-    //cin >> t;
-    while(t--) solve();
-
-    return 0;
-}
+ 
+    void Union(int a, int b)
+    {
+        int u, v;
+        u = find(a);
+        v = find(b);
+        if(cnt[v] > cnt[u]) swap(u,v);
+        if (u != v)
+            par[v] = u, cnt[u] += cnt[v];
+    }
+};
