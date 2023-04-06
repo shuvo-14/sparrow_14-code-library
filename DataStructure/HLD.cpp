@@ -31,7 +31,7 @@ void _print(T t, V... v) {__print(t); if (sizeof...(v)) cerr << ", "; _print(v..
 
 #define IOS ios::sync_with_stdio(0); cin.tie(0); cout.tie(0);
 #define endl "\n"
-#define ll int
+#define ll long long
 #define pb push_back
 #define ff first
 #define ss second
@@ -186,7 +186,7 @@ void dfs_hld(int u) {
 
 
 int query_up(int u, int v) {
-  int ans = -inf;
+  ll ans = -inf;
   while(head[u] != head[v]) {
     ans = max(ans, t.query(in[head[u]], in[u],0, 1, n));
     u = par[head[u]][0];
