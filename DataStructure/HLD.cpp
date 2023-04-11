@@ -114,7 +114,7 @@ struct segtree{
         update(0,0,n-1,l,r,v);     
     }
 
-    ll query(int l, int r, int x, int lx, int rx)
+    int query(int l, int r, int x, int lx, int rx)
     {
         propagate(x,lx,rx);
         if(lx > r || rx < l) return -inf; //change accordingly
@@ -125,22 +125,20 @@ struct segtree{
         return merge(s1,s2);
     }
 
-    ll query(int l, int r)
+    int query(int l, int r)
     {
         return query(l,r,0,0,n-1);
     }
 
 }t;
 vector<int>g[N];
-int depth[N],par[N][LG+1],sz[N];
+int depth[N],par[N],sz[N];
 
 void dfs(int u, int p = 0)
 {
     depth[u] = depth[p] + 1;
-    par[u][0] = p;
+    par[u] = p;
     sz[u] = 1;
-    for(int i = 1; i <= LG; i++)
-        par[u][i] = par[par[u][i-1]][i-1];
     
     if(p) g[u].erase(find(g[u].begin(),g[u].end(),p));
 
@@ -152,27 +150,7 @@ void dfs(int u, int p = 0)
         if(sz[v] > sz[g[u][0]]) swap(g[u][0],v);
     }
 }
-int lca(int u, int v)
-{
-    if(depth[u] < depth[v]) swap(u,v);
-    for(int k = LG; k >= 0; k--) 
-        if(depth[par[u][k]] >= depth[v]) u = par[u][k];
-    if(u == v) return u;
-    for(int i = LG; i >= 0; i--)
-    {
-        if(par[u][i] != par[v][i]) 
-        {
-            u = par[u][i];
-            v = par[v][i];
-        }
-    }
-    return par[u][0];
-}
-int kth(int u, int k) {
-  assert(k >= 0);
-  for (int i = LG; i >= 0; i--) if (k & (1 << i)) u = par[u][i];
-  return u;
-}
+
 int head[N],in[N],out[N],T;
 void dfs_hld(int u) {
   in[u] = ++T;
@@ -183,26 +161,19 @@ void dfs_hld(int u) {
   out[u] = T;
 }
 
-
-
-int query_up(int u, int v) {
-  ll ans = -inf;
-  while(head[u] != head[v]) {
-    ans = max(ans, t.query(in[head[u]], in[u],0, 1, n));
-    u = par[head[u]][0];
-  }
-  ans = max(ans, t.query(in[v], in[u],0, 1, n));
-  return ans;
+int query(int u, int v) 
+{
+    int ans= -inf;
+    while(head[u] != head[v])
+    {
+        if(depth[head[u]] < depth[head[v]]) swap(u,v);
+        ans = max(ans,t.query(in[head[u]],in[u],0,1,n));
+        u = par[head[u]];
+    }
+    if(depth[u] > depth[v]) swap(u,v);
+    ans = max(ans,t.query(in[u],in[v],0,1,n));
+    return ans;
 }
-
-int query(int u, int v) {
-  int l = lca(u, v);
-  int ans = query_up(u, l);
-  if (v != l) ans = max(ans, query_up(v, kth(v, depth[v] - depth[l] - 1)));
-  return ans;
-}
-
-
 
 int32_t main()
 {
