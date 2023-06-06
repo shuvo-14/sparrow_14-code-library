@@ -1,6 +1,6 @@
 int a[N];
 
-struct segtree 
+struct segtree // 1 based : st.query(1,1,n,l,r);
 {
     int sz = 1;
     vector<int>tree;
